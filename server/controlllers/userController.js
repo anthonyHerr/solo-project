@@ -1,26 +1,48 @@
-const User = require('./model/userModel.js')
+const User = require('../model/userModel.js')
 
 const userController = {
   // Create a new user in the Database
   // Their information will be sent in the request body
   // This should send the created user
   createUser(req, res, next) {
-    const newUser = new User(req.body);
-    newUser.save((err, user) => {
-      if (err) {
-        return next({
-          log: 'Error creating user',
-          status: 500,
-          message: {err: 'Error creating user'},
+    const { firstName, bodyPart, workouts } = req.body;
+    const newUser = new User({ firstName, bodyPart, workouts });
+
+    newUser.save()
+        .then(user => {
+            res.locals.user = user;
+            return next();
+        })
+        .catch(err => {
+          next({
+            log: `Error creating user: ${err}` ,
+            status: 500,
+            message: { err: 'Error creating user' },
+          });
         });
-      }
-      else {
-        res.status(200).json(student)
-      }
-    })
-
-
   },
+
+  // get a user from the database and send it in the response
+  // firstname will in request parameter 'firstName'
+  // send the found student
+  getUser(req, res, next) {
+    const { firstName } = req.params;
+    User.findOne({ firstName })
+      .then(user => {
+        if (!user) {
+          return res.status(404).json({ message: 'User not found'});
+        }
+        res.locals.user = user;
+        return next();
+      })
+      .catch(err => {
+        next({
+          log: `Error getting user: ${err}` ,
+          status: 500,
+          message: { err: 'Error getting user' },
+        });
+      })
+  }
 
 }
 

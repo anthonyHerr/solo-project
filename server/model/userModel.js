@@ -19,16 +19,16 @@ mongoose.connect(MONGO_URI, {
 
   const userSchema = new Schema({
     firstName: { type: String, required: true },
-    lasName: { type: String, required: true },
+    // lasName: { type: String, required: true },
     bodyPart: { type: String, required: true },
-    workouts: [
-      {
-        name: { type: String, required: true },
-        sets: { type: Number, required: true },
-        reps: { type: Number, required: true },
-        // Add more properties as needed
-      },
-    ]
+    workouts: [ String ]
+    //   {
+    //     name: { type: String, required: true },
+    //     sets: Number, 
+    //     reps: Number, 
+    //     // Add more properties as needed
+    //   },
+    // ]
   })
 
 const User = mongoose.model('user', userSchema);
