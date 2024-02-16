@@ -42,6 +42,20 @@ const userController = {
           message: { err: 'Error getting user' },
         });
       })
+  },
+
+  deleteUser(req, res, next) {
+    const { firstName } = req.params;
+    User.findOneAndDelete({ firstName })
+      .then(user => {
+        if (!user) {
+          return res.status(404).json({ message: 'User not found'});
+        }
+        return next();
+      })
+      .catch(err => {
+        next(err); // Pass the error to the error handling middleware
+      });
   }
 
 }

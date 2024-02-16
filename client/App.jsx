@@ -4,28 +4,40 @@ import TherapyTracker from './components/TherapyTracker';
 // import './stylesheets/styles.css';
 
 
-const App = props => {
+const HomePage = () => {
   const navigate = useNavigate();
-
   const handleGetStartedClick = () => {
     navigate('/user');
   }
+  return (
+    <div className="Get Started">
+      <h1>Physical Therapy Tracker</h1>
+      <button onClick={handleGetStartedClick}>Get Started</button>
+    </div>
+  );
+};
+
+const UserPage = () => {
+  const navigate = useNavigate();
   const handleBackClick = () => {
     navigate('/');
-  }
+  };
+  return  (
+    <div>
+      <TherapyTracker/>
+      <button onClick={handleBackClick}>Back</button>
+    </div>
+  );
+}
+
+const App = props => {
 
   return (
-    <div className="h">
-      <button onClick={handleGetStartedClick}>Get Started</button>
-      <button onClick={handleBackClick}>Back</button>
-      <main>
+    <div>
         <Routes>
-          <Route
-            path="/user"
-            element={<TherapyTracker/>}
-          />
+          <Route path="/" element={<HomePage/>}/>
+          <Route path="/user" element={<UserPage/>}/>
         </Routes>
-      </main>
     </div>
   );
 };

@@ -10,15 +10,22 @@ app.use('/bundle.js', express.static(path.join(__dirname, '../build/bundle.js'))
 
 
 
+app.get('/user/createuser', (req,res) => {
+  res.status(200).send('hello')
+})
 
-app.get('/user/:firstName', userController.getUser, (req, res) => {
+app.get('/user/createuser/:firstName', userController.getUser, (req, res) => {
   res.status(200).json(res.locals.user);
 })
+
 
 app.post('/user', userController.createUser, (req, res) => {
   res.status(200).json(res.locals.user);
 })
 
+app.delete('/user/createuser/:firstName', userController.deleteUser, (req, res) => {
+  res.status(200).json({ message: 'User deleted successfully' });
+})
 
 /* move catch-all route handler to bottom of file to ensure 
 all other get requests are handled first */
